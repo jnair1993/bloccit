@@ -2,10 +2,17 @@
   "name": "bloccit",
   "version": "1.0.0",
   "description": "A Reddit-like application for users to discuss and share content",
-  "main": "src/server.js",
+  "main": "node src/server.js",
   "scripts": {
     "test": "export NODE_ENV=test && jasmine"
   },
   "author": "Jayesh Nair",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "jasmine": "^3.0.0",
+    "request": "^2.83.0"
+  },
+  "dependencies": {
+    "express": "^4.16.2"
+  }
 }
