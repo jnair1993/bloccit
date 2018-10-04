@@ -54,6 +54,14 @@ describe("routes : topics", () => {
       }
     };
 
+    const options2 = {
+      url: `${base}create`,
+      form: {
+        title: "a",
+        description: "b"
+      }
+    };
+
     it("should create a new topic and redirect", (done) => {
       request.post(options, (err, res, body) => {
         Topic.findOne({
@@ -70,6 +78,22 @@ describe("routes : topics", () => {
           done();
         });
       });
+    });
+
+    it("should not create a new topic if validations fails", (done) => {
+      request.post(options2, (err, res, body) => {
+        Topic.findOne({
+          where: {
+            title: "a"
+          }
+        }).then((topic) => {
+          expect(topic).toBeNull();
+          done();
+        }).catch((err) => {
+          console.log(err);
+          done();
+        });
+      })
     });
   });
 
@@ -88,14 +112,12 @@ describe("routes : topics", () => {
   describe("POST /topics/:id/destroy", () => {
 
     it("should delete the topic with the associated ID", (done) => {
-      Topic.all()
-      .then((topics) => {
+      Topic.all().then((topics) => {
         const topicCountBeforeDelete = topics.length;
 
         expect(topicCountBeforeDelete).toBe(1);
         request.post(`${base}${this.topic.id}/destroy`, (err, res, body) => {
-          Topic.all()
-          .then((topics) => {
+          Topic.all().then((topics) => {
             expect(err).toBeNull();
             expect(topics.length).toBe(topicCountBeforeDelete - 1);
             done();
@@ -131,9 +153,10 @@ describe("routes : topics", () => {
       request.post(options, (err, res, body) => {
         expect(err).toBeNull();
         Topic.findOne({
-          where: { id: this.topic.id }
-        })
-        .then((topic) => {
+          where: {
+            id: this.topic.id
+          }
+        }).then((topic) => {
           expect(topic.title).toBe("JavaScript Frameworks");
           done();
         });
