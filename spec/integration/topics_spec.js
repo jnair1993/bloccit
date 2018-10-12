@@ -310,7 +310,7 @@ describe("routes : topics", () => {
         (err, res, body) => {
           expect(err).toBeNull();
           Topic.findOne({
-            where: { id:1 }
+            where: { id: 1 }
           })
           .then((topic) => {
             expect(topic.title).toBe("JS Frameworks"); // confirm title is unchanged
