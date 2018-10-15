@@ -5,7 +5,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isEmail: { msg: "must be a valid email" }
+        isEmail: {
+          msg: "must be a valid email"
+        }
       }
     },
     password: {
@@ -14,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     role: {
       type: DataTypes.STRING,
-      allowNull:false,
+      allowNull: false,
       defaultValue: "member"
     }
   }, {});
@@ -24,11 +26,16 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "userId",
       as: "posts"
     });
+
+    User.hasMany(models.Comment, {
+      foreignKey: "userId",
+      as: "comments"
+    });
   };
 
   User.prototype.isAdmin = function() {
     return this.role === "admin";
   };
-  
+
   return User;
 };
